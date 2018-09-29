@@ -2098,8 +2098,8 @@ function messageParser() {
 	// attempt to fix the box breaking, initial guess is too many messages
 	// this also will fix performance
 	var messageElems = chatlogElem.querySelectorAll(messageQueryString);
-	if (messageElems.length > 100) messageElems[0].parentNode.removeChild(messageElems[0]) ;
 	if (latestMessageElem == messageElems[(messageElems.length - 1)]) messageElems[messageElems.length].parentNode.removeChild(messageElems[messageElems.length]);
+	if (messageElems.length > 100) messageElems[0].parentNode.removeChild(messageElems[0]) ;
 	if (latestMessageElem != null) {
 		if (latestMessageElem.classList.contains("system")) typeSystem =  true;
 		latestMessageElem.setAttribute("id", "msg-"+messageCount);
