@@ -446,6 +446,18 @@ function notificationHider() {
 	}catch(e){tcl("error notificationHider: " + e.message);}
 }	
 
+
+function clearChatlog(opt=null) {
+        var messageElems = chatlogElem.querySelectorAll(messageQueryString);
+	for (i=0; i < messageElems.length; i++) {
+        	messageElems[i].parentNode.removeChild(messageElems[i]) ;
+	} 
+
+}
+
+
+
+
 function copyChatlog(opt=null) {
 	try{
 	if (opt == "close") {
@@ -1583,6 +1595,7 @@ function injectCSS(cssName=null) {
 		#tes-chatlogDisplay #close.show {
 			opacity: 1;
 		}
+	
 		#tes-chatlogButtons {
 			position: absolute;
 			top: 2px;
@@ -1590,6 +1603,57 @@ function injectCSS(cssName=null) {
 			font: 15px monospace;
 			z-index: 11;
 		}
+		.tes-chatlog {
+			padding: 2px;
+			border-radius: 4px;
+			border: silver 1px solid;
+			color: silver;
+			transition: .3s;
+			width: 10px;
+			height: 10px;
+			overflow: hidden;
+			cursor: pointer;
+			opacity: 1;
+			float: left;
+		}
+		.tes-chatlogclear {
+			padding: 2px;
+			border-radius: 4px;
+			border: silver 1px solid;
+			color: silver;
+			transition: .3s;
+			width: 10px;
+			height: 10px;
+			overflow: hidden;
+			cursor: pointer;
+			opacity: 1;
+			float: left;
+		}
+	
+		.tes-chatlogclear:hover {
+			width: 1.5em;
+			color: var(--textcolor);
+			border-color: var(--textcolor);
+		}
+		.tes-chatlogclear ~ .tes-chatlogBut { margin-left: 2px; }
+		.tes-chatlogclear .icon { width: auto; }
+		.tes-chatlogclear .label {
+			width: 0;
+			opacity: 0;
+			overflow: hidden;
+			transition: .3s;
+			display: block;
+			position: relative;
+			top: -2px;
+			left: 22px;
+			font: 11px sans-serif;
+			color: var(--textcolor);
+		}
+		.tes-chatlogclear:hover .label {
+			opacity: 1;
+			width: auto;
+		}
+	
 		.tes-chatlogBut {
 			padding: 2px;
 			border-radius: 4px;
@@ -1652,17 +1716,67 @@ function injectCSS(cssName=null) {
 		#tes-chatlogSave:hover .icon path { fill: var(--textcolor); }
 		#tes-chatlogSave:hover { width: 4.2em; }
 		#tes-chatlogSave:hover .label { width: 4.3em; }
+		#tes-chatlogclear .icon {
+			/* transform: scaleY(.6); */ 
+			position: absolute;
+			top: -1px;
+			left: 4px;
+		}
+		#tes-chatlogclear .icon svg {
+			width: 19px;
+			height: 19px;
+			position: relative;
+			left: -3px;
+		}
+		#tes-chatlogclear .icon path {
+			transform: scale(.08) scaleX(1.2) rotate(180deg);
+			10%: 10px
+			height:;
+			fill: #ccc;
+			transform-origin: 11px 12px;
+		}
+		#tes-chatlogclear:hover .icon path { fill: var(--textcolor); }
+		#tes-chatlogclear:hover { width: 4.2em; }
+		#tes-chatlogclear:hover .label { width: 4.3em; }
+	
+		#tes-chatlogclear .icon {
+			font-size: 10px;
+			top: 1px;
+			position: absolute;
+		}
+	
 		#tes-chatlogView .icon {
 			font-size: 10px;
 			top: 1px;
 			position: absolute;
 		}
-		#tes-chatlogView:hover { width: 2.5em; }
 		
+		#tes-chatlogclear:hover { width: 2.5em; }
+		#tes-chatlogView:hover { width: 2.5em; }
+		.tes-nightmode #tes-chatlogclear .icon path { fill: var(--nightmode-textSecondarycolor); }
+			.tes-nightmode.blacknight #tes-chatlogclear .icon path { fill: #444; }
+	
 		.tes-nightmode #tes-chatlogSave .icon path { fill: var(--nightmode-textSecondarycolor); }
 			.tes-nightmode.blacknight #tes-chatlogSave .icon path { fill: #444; }
 		.tes-nightmode #tes-chatlogSave:hover .icon path { fill: var(--nightmode-textcolor); }
 			.tes-nightmode.blacknight #tes-chatlogSave:hover .icon path { fill: gray; }
+		.tes-nightmode .tes-chatlogclear {
+			color: var(--nightmode-textSecondarycolor);
+			border-color: var(--nightmode-textSecondarycolor);
+		}
+				.tes-nightmode.blacknight .tes-chatlogclear {
+					color: #444;
+					border-color: #444;
+				}
+		.tes-nightmode .tes-chatlogclear:hover {
+			color: var(--nightmode-textcolor);
+			border-color: var(--nightmode-textcolor);
+		}
+				.tes-nightmode.blacknight .tes-chatlogclear:hover {
+					color: #777;
+					border-color: #777;
+				}
+	
 		.tes-nightmode .tes-chatlogBut {
 			color: var(--nightmode-textSecondarycolor);
 			border-color: var(--nightmode-textSecondarycolor);
@@ -1690,6 +1804,9 @@ function injectCSS(cssName=null) {
 					color: gray;
 					border: 1px solid #444;
 				}
+		.tes-nightmode .tes-chatlogclear .label { color: var(--nightmode-textcolor); }
+				.tes-nightmode.blacknight .tes-chatlogclear .label { color: gray; }
+	
 		.tes-nightmode .tes-chatlogBut .label { color: var(--nightmode-textcolor); }
 				.tes-nightmode.blacknight .tes-chatlogBut .label { color: gray; }
 		.tes-nightmode #chat-content > .message > .nickname[data-status=""],
@@ -1983,6 +2100,11 @@ function injectElements() {
 				<span class="icon">☰</span>
 				<span class="label">view</span>
 			</div>
+			<div id="tes-chatlogclear" class="tes-chatlogclear">
+				<span class="icon">*</span>
+				<span class="label">clear</span>
+			</div>
+	
 			<div id="tes-chatlogDisplay">
 				<textarea spellcheck="false"></textarea>
 				<div id="close">✕</div>
@@ -1990,6 +2112,7 @@ function injectElements() {
 		</div>`;
 	
 	selectAllButton = chatlogElem.querySelector("#chat-wrapper").insertAdjacentHTML("afterbegin", chatlogButtonsHTML);
+	chatlogElem.querySelector("#tes-chatlogclear").addEventListener("click", function(){clearChatlog()} );
 	chatlogElem.querySelector("#tes-chatlogSave").addEventListener("click", function(){copyChatlog("download")} );
 	chatlogElem.querySelector("#tes-chatlogView").addEventListener("click", function(){copyChatlog("view")} );
 	chatlogElem.querySelector("#tes-chatlogDisplay #close").addEventListener("click", function(){copyChatlog("close")} );
@@ -2099,7 +2222,7 @@ function messageParser() {
 	// this also will fix performance
 	var messageElems = chatlogElem.querySelectorAll(messageQueryString);
 	if (latestMessageElem == messageElems[(messageElems.length - 1)]) messageElems[messageElems.length].parentNode.removeChild(messageElems[messageElems.length]);
-	if (messageElems.length > 100) messageElems[0].parentNode.removeChild(messageElems[0]) ;
+	if (messageElems.length > 50) messageElems[0].parentNode.removeChild(messageElems[0]) ;
 	if (latestMessageElem != null) {
 		if (latestMessageElem.classList.contains("system")) typeSystem =  true;
 		latestMessageElem.setAttribute("id", "msg-"+messageCount);
