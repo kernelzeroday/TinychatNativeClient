@@ -2055,7 +2055,7 @@ function newMessageAdded() {
 
 function userContextmenuUpdated() {
 	try{
-	var elemBottom = 0;
+	var // elemBottom = 0;
 	var topPos = userContextmenuCSS.getBoundingClientRect().top;
 	var elemBottom = topPos + userContextmenuCSS.offsetHeight;
 	if (elemBottom > (window.innerHeight - 82)) {
@@ -2095,7 +2095,12 @@ function messageParser() {
 	latestMessageElem = chatlogElem.querySelector(messageQueryString + ":last-of-type");
 
 	var typeSystem = false;
-	
+	// attempt to fix the box breaking, initial guess is too many messages
+	// this also will fix performance
+	if (messageElems.length > 100) {
+		messageElems[0].parentNode.removeChild(messageElems[0])
+	}	
+
 	if (latestMessageElem != null) {
 		if (latestMessageElem.classList.contains("system")) typeSystem =  true;
 		latestMessageElem.setAttribute("id", "msg-"+messageCount);

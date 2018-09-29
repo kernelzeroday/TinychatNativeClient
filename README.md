@@ -12,6 +12,12 @@ Use a prebuilt .zip or compile your own with make, if you do not want the extent
 
 I am in the process of rewriting and fixing the TES userscript to not rely on anything like tampermonkey for its functionality. I will write some more themes (omg pink) and various other fixes and changes. Most of the credit goes to the author of that original script.
 
+Notes:
+
+To refresh use CTRL + R
+
+There may be some buggyness, and stores settings will not be saved yet. 
+
 
 Cool stuff:
 
@@ -32,3 +38,5 @@ Cool stuff:
 * Hide the info bar at the top
 
 * Some other stuff
+
+
