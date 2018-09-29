@@ -2223,7 +2223,7 @@ function messageParser() {
 
 	var messageElems = chatlogElem.querySelectorAll(messageQueryString);
 	for (i=1; i < messageElems.length; i++) {
-		if (messageElems[i] == messageElems[0]) {
+		if (messageElems[i].children[4].children[0].html == messageElems[0].children[4].children[0].html) {
 			messageElems[0].parentNode.removeChild(messageElems[0]) ;
 			messageElems[i].parentNode.removeChild(messageElems[i])
 		}
