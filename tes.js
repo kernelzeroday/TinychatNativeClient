@@ -2097,6 +2097,7 @@ function messageParser() {
 	var typeSystem = false;
 	// attempt to fix the box breaking, initial guess is too many messages
 	// this also will fix performance
+	var messageElems = chatlogElem.querySelectorAll(messageQueryString);
 	if (messageElems.length > 100) messageElems[0].parentNode.removeChild(messageElems[0]) ;
 
 	if (latestMessageElem != null) {
