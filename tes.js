@@ -20,6 +20,8 @@ clearInterval(initInterval);
 try {
 /* Begin main function */
 
+var api = window.TinychatApp.getInstance()
+
 var bodyElem = document.querySelector("body");
 
 var webappOuter = document.querySelector("tinychat-webrtc-app");
@@ -119,6 +121,15 @@ if (browserFirefox) {
 		</div>
 	</div>
 	`);
+}
+
+function getallmessages() {
+	var bodyElem = document.querySelector("body");
+	var webappOuter = document.querySelector("tinychat-webrtc-app");
+	var webappElem = webappOuter.shadowRoot;
+	var chatlogElem = webappElem.querySelector("tinychat-chatlog").shadowRoot;
+	var messageQueryString = "#chat-content .message";
+        return chatlogElem.querySelectorAll(messageQueryString);
 }
 
 function waitForSettings() {
@@ -2229,6 +2240,17 @@ function messageParser() {
 		}
 	}	
 
+	var mlist = getallmessages();
+	for (i=1; i < mlist.length; i++) {
+		if (mlist[i].childElementCount > 8) {
+			mlist[i].parentNode.removeChild(mlist[i]);
+		}
+	var mlist = getallmessages()
+		if (mlist[i].childElementCount < 6) {
+			mlist[i].parentNode.removeChild(mlist[i]);
+		}
+	}
+
 
 	if (latestMessageElem != null) {
 		if (latestMessageElem.classList.contains("system")) typeSystem =  true;
@@ -2540,6 +2562,14 @@ function TESwsParser() {
 				myNick = joined["self"]["nick"];
 				myHandle = joined["self"]["handle"];
 			}
+			if (msg.data.includes('"tc":"pvtmsg"') && msg.data.includes('"handle"')) {				
+				
+				var messageArr = JSON.parse(msg.data);
+				var handle = messageArr["handle"];
+				chatlogAdd("PRIVATE: "+userlistLog[handle]["nick"] + ": " + messageArr["text"]);
+				document.children[0].children[1].children[8].shadowRoot.children[2].children[1].children[1].shadowRoot.children[2].children[1].children[2].children[0].appendChild()
+			}
+	
 			if (msg.data.includes('"tc":"msg"') && msg.data.includes('"handle"')) {				
 				var messageArr = JSON.parse(msg.data);
 				var handle = messageArr["handle"];

@@ -8,12 +8,16 @@ def:
 	zip -r ConspiracyChat_MacOS.zip ConspiracyChat-darwin-x64
 
 linux:
-	nativefier -u 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'  -p linux --name "ConspiracyChat" --icon icon.png --inject tes.js "https://tinychat.com/room/conspiracychat"
+	nativefier -u 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'  -p linux --name "ConspiracyChat" --icon icon.png --inject tes.js  "https://tinychat.com/room/conspiracychat"
 	rm -rf ~/bin/conspiracy-chat-linux-x64/	
 	cp -r conspiracy-chat-linux-x64/ ~/bin/
 	rm -rfv ~/bin/conspiracy-chat
 	ln -s ~/bin/conspiracy-chat-linux-x64/conspiracy-chat ~/bin/
 
+clone_pull:
+	cd full_native
+	wget -cmk --tries 10 tinychat.com/room/conspiracychat
+	cd ..
 	
 
 vanilla:
